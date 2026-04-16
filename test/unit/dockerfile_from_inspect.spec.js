@@ -1,12 +1,13 @@
 'use strict';
 
-var should = require('should'),
+const assert = require('node:assert/strict'),
+    { describe, it } = require('node:test'),
     commandsFromInspect = require('../../lib/inspect-to-dockerfile').commandsFromInspect;
 
-describe('Commands from Inspect function', function () {
+describe('Commands from Inspect function', function() {
 
-    it('correctly parses labels', function () {
-        var inspect = {
+    it('correctly parses labels', function() {
+        const inspect = {
             Config: {
                 "Labels": {
                     "Authoritative_Registry": "registry.redhat.com",
@@ -15,28 +16,29 @@ describe('Commands from Inspect function', function () {
                 }
             }
         };
-        var config = JSON.stringify(inspect);
-        var commands = commandsFromInspect(config);
-        commands.length.should.eql(1);
-        commands[0].name.should.eql('LABEL');
-        commands[0].args.should.eql(inspect.Config.Labels);
-    });
-    it('correctly parses user', function () {
-        var inspect ={Config: {"User": "root"}};
-        var config = JSON.stringify(inspect);
-        var commands = commandsFromInspect(config);
-        commands.length.should.eql(1);
-        commands[0].name.should.eql('USER');
-        commands[0].args.should.eql('root');
+        const config = JSON.stringify(inspect);
+        const commands = commandsFromInspect(config);
+        assert.strictEqual(commands.length, 1);
+        assert.strictEqual(commands[0].name, 'LABEL');
+        assert.deepStrictEqual(commands[0].args, inspect.Config.Labels);
     });
 
-    it('correctly parses maintainer', function () {
-        var inspect ={Author:"test@example.com"};
-        var config = JSON.stringify(inspect);
-        var commands = commandsFromInspect(config);
-        commands.length.should.eql(1);
-        commands[0].name.should.eql('MAINTAINER');
-        commands[0].args.should.eql('test@example.com');
+    it('correctly parses user', function() {
+        const inspect = { Config: { "User": "root" } };
+        const config = JSON.stringify(inspect);
+        const commands = commandsFromInspect(config);
+        assert.strictEqual(commands.length, 1);
+        assert.strictEqual(commands[0].name, 'USER');
+        assert.strictEqual(commands[0].args, 'root');
+    });
+
+    it('correctly parses maintainer', function() {
+        const inspect = { Author: "test@example.com" };
+        const config = JSON.stringify(inspect);
+        const commands = commandsFromInspect(config);
+        assert.strictEqual(commands.length, 1);
+        assert.strictEqual(commands[0].name, 'MAINTAINER');
+        assert.strictEqual(commands[0].args, 'test@example.com');
     });
 
 });
