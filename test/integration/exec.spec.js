@@ -7,7 +7,7 @@ const assert = require('node:assert/strict'),
     http = require('node:http'),
     path = require('node:path'),
     { describe, it } = require('node:test'),
-    parser = require('fast-xml-parser');
+    { XMLValidator } = require('fast-xml-parser');
 
 const binScript = path.join('bin', 'dockerfile_lint')
 
@@ -138,9 +138,11 @@ describe('The dockerfile_lint command', function() {
     });
 
     it('should output valid XML when in --junit mode', function(t, done) {
-        var p = exec('node ' + binScript + ' --junit -f test/data/dockerfiles/TestLabels -p -r test/data/rules/basic.yaml',
+        const p = exec('node ' + binScript + ' --junit -f test/data/dockerfiles/TestLabels -p -r test/data/rules/basic.yaml',
             function(err, stdout, stderr) {
-                assert.ok(parser.validate(stdout));
+                assert.doesNotThrow(() => {
+                    assert.ok(XMLValidator.validate(stdout));
+                });
             });
         p.on('exit', function(code) {
             assert.strictEqual(code, 0);
