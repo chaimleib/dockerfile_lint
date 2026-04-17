@@ -3,7 +3,6 @@
 'use strict';
 
 var fs = require('fs'),
-    _ = require('lodash'),
     yamlParser = require('js-yaml'),
     commandline = require('commander'),
     logger = require("../lib/logger"),
@@ -79,7 +78,7 @@ if (commandline.dockerfile.length === 0 && !lintImage) {
 
 
 function lintDockerFiles() {
-    var lintPromises = _.map(commandline.dockerfile, function(dockerfileLocation) {
+    const lintPromises = [...commandline.dockerfile].map(function(dockerfileLocation) {
         if (!commandline.json && !commandline.junit) {
             console.info('\n# Analyzing ' + dockerfileLocation + '\n');
         }
