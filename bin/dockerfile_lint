@@ -23,8 +23,8 @@ var fs = require('fs'),
     imageid = null;
 
 function collectArgs(arg, args) {
-  args.push(arg);
-  return args;
+    args.push(arg);
+    return args;
 }
 
 commandline
@@ -38,7 +38,7 @@ commandline
 
 commandline.command('image <imageid>')
     .description("Lint a local docker image matching <imageid>.\n The --dockerfile option is ignored when this command is used.")
-    .action(function (id) {
+    .action(function(id) {
         lintImage = true;
         imageid = id;
     });
@@ -79,13 +79,13 @@ if (commandline.dockerfile.length === 0 && !lintImage) {
 
 
 function lintDockerFiles() {
-    var lintPromises = _.map(commandline.dockerfile, function (dockerfileLocation) {
+    var lintPromises = _.map(commandline.dockerfile, function(dockerfileLocation) {
         if (!commandline.json && !commandline.junit) {
             console.info('\n# Analyzing ' + dockerfileLocation + '\n');
         }
         return lintDockerFile(dockerfileLocation);
     });
-    Promise.all(lintPromises).then(function (results) {
+    Promise.all(lintPromises).then(function(results) {
         if (commandline.json) {
             printJsonResults(results.length === 1 ? results[0] : results);
         } else if (commandline.junit) {
@@ -97,14 +97,14 @@ function lintDockerFiles() {
             return total + result.error.count + (strictMode ? result.warn.count : 0);
         }, 0);
         process.exit(errorCodesSum);
-    }).catch(function (error) {
+    }).catch(function(error) {
         console.error(error);
         process.exit(-1);
     });
 }
 
 function lintDockerFile(dockerfileLocation) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
         try {
             var dockerfile = fs.readFileSync(dockerfileLocation, 'UTF-8');
         } catch (e) {
@@ -122,7 +122,7 @@ function lintDockerFile(dockerfileLocation) {
         }
 
         if (remoteFile) {
-            getContent(dockerfileLocation).then(function (dockerfileContent) {
+            getContent(dockerfileLocation).then(function(dockerfileContent) {
                 lint(dockerfileContent, rulefileLocation)
             });
         } else {
@@ -153,7 +153,7 @@ function lintImageFromInspect() {
         }
     }
 
-    image.inspect(function (err, data) {
+    image.inspect(function(err, data) {
         if (err) {
             logger.error("Unable to inspect image : " + imageid);
             process.exit(1);
