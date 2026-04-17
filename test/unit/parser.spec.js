@@ -94,7 +94,7 @@ describe('parse function', function() {
                 + 'RUN echo done\n'
                 + "LABEL two4";  //Invalid label
             const commands = parser.parse(contents, options);
-            assert.ok(commands[2].hasOwnProperty('error'));
+            assert.ok(Object.hasOwn(commands[2], 'error'));
             assert.strictEqual(commands[2].error, 'LABEL must have two arguments, got two4');
 
         });
@@ -106,8 +106,8 @@ describe('parse function', function() {
                 + "LABEL two4\n" //Invalid label
                 + "LABEL two=2";  //Valid label
             const commands = parser.parse(contents, options);
-            assert.ok(commands[2].hasOwnProperty('error'));
-            assert.ok(!commands[3].hasOwnProperty('error'));
+            assert.ok(Object.hasOwn(commands[2], 'error'));
+            assert.ok(!Object.hasOwn(commands[3], 'error'));
 
         });
     });
