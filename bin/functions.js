@@ -3,14 +3,13 @@
  */
 'use strict';
 var builder = require('junit-report-builder');
-var util = require('util');
 
 function getRefUrl(url) {
     var ref_url = "";
-    if (util.isArray(url)) {
+    if (Array.isArray(url)) {
         var base_url = url ? url[0] : "";
         ref_url = url && url[1] ? base_url +
-        url[1] : base_url;
+            url[1] : base_url;
     } else {
         ref_url = (url) ? url : "None";
     }
@@ -37,9 +36,9 @@ function isRedirect(statusCode) {
 }
 
 function getContent(url) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
         var lib = url.startsWith('https') ? require('https') : require('http');
-        var request = lib.get(url, function (response) {
+        var request = lib.get(url, function(response) {
             if (isRedirect(response.statusCode) && response.headers.location) {
                 getContent(res.headers.location).then(resolve).catch(reject);
             }
@@ -47,8 +46,8 @@ function getContent(url) {
                 reject(new Error('Failed to load page, status code: ' + response.statusCode));
             }
             var body = [];
-            response.on('data', function (chunk) { body.push(chunk); });
-            response.on('end', function () { resolve(body.join('')); });
+            response.on('data', function(chunk) { body.push(chunk); });
+            response.on('end', function() { resolve(body.join('')); });
         });
         request.on('error', reject);
     })
@@ -60,19 +59,19 @@ function printResults(results) {
     var info = results.info;
     if (errors && errors.data && errors.data.length > 0) {
         console.log("\n--------ERRORS---------\n");
-        errors.data.forEach(function (entry) {
+        errors.data.forEach(function(entry) {
             printEntry(entry, "ERROR");
         });
     }
     if (warn && warn.data && warn.data.length > 0) {
         console.log("\n-------WARNINGS--------\n");
-        warn.data.forEach(function (entry) {
+        warn.data.forEach(function(entry) {
             printEntry(entry, "WARNING");
         });
     }
     if (info && info.data && info.data.length > 0) {
         console.log("\n--------INFO---------\n");
-        info.data.forEach(function (entry) {
+        info.data.forEach(function(entry) {
             printEntry(entry, "INFO");
         });
     }
@@ -116,17 +115,17 @@ function printJunitResults(results) {
 
     // Convert test results to JUnit test cases
     if (errors && errors.data && errors.data.length > 0) {
-        errors.data.forEach(function (entry) {
+        errors.data.forEach(function(entry) {
             makeJunitTestCase(suite, "ERROR", entry);
         });
     }
     if (warn && warn.data && warn.data.length > 0) {
-        warn.data.forEach(function (entry) {
+        warn.data.forEach(function(entry) {
             makeJunitTestCase(suite, "INFO", entry);
         });
     }
     if (info && info.data && info.data.length > 0) {
-        info.data.forEach(function (entry) {
+        info.data.forEach(function(entry) {
             makeJunitTestCase(suite, "WARNING", entry);
         });
     }

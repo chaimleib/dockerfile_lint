@@ -1,13 +1,14 @@
 {
   "name": "dockerfile_lint",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Utility for linting a docker file against accepted good practices",
   "main": "index.js",
   "bin": {
     "dockerfile_lint": "./bin/dockerfile_lint"
   },
   "scripts": {
-    "test": "mocha test/**/*spec.js"
+    "test": "node --test",
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -26,16 +27,14 @@
   },
   "dependencies": {
     "commander": "~2.9.0",
-    "dockerode": "^2.2.9",
-    "js-yaml": "~3.13.1",
-    "junit-report-builder": "^2.1.0",
-    "lodash": "^2.4.2",
+    "dockerode": "^4.0.10",
+    "js-yaml": "^4.1.1",
+    "junit-report-builder": "^5.1.2",
+    "lodash": "^4.18.1",
     "winston": "^2.4.5"
   },
   "devDependencies": {
-    "fast-xml-parser": "^3.17.4",
-    "mocha": "~2.0.1",
-    "pre-commit": "^1.1.2",
-    "should": "~4.1.0"
+    "fast-xml-parser": "^5.6.0",
+    "husky": "^9.1.7"
   }
 }
