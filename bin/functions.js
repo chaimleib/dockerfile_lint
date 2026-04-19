@@ -35,7 +35,7 @@ function getContent(url) {
         const lib = url.startsWith('https') ? require('https') : require('http');
         const request = lib.get(url, function(response) {
             if (isRedirect(response.statusCode) && response.headers.location) {
-                getContent(res.headers.location).then(resolve).catch(reject);
+                getContent(response.headers.location).then(resolve).catch(reject);
             }
             if (response.statusCode < 200 || response.statusCode > 299) {
                 reject(new Error('Failed to load page, status code: ' + response.statusCode));
