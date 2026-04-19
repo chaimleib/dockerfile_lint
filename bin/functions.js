@@ -5,16 +5,11 @@
 const builder = require('junit-report-builder');
 
 function getRefUrl(url) {
-    let ref_url = "";
     if (Array.isArray(url)) {
         const base_url = url ? url[0] : "";
-        ref_url = url && url[1] ? base_url +
-            url[1] : base_url;
-    } else {
-        ref_url = (url) ? url : "None";
+        return (url && url[1]) ? base_url + url[1] : base_url;
     }
-    return ref_url;
-
+    return (url) ? url : "None";
 }
 
 function printEntry(entry, level) {
