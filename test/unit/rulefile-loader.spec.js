@@ -15,8 +15,6 @@ function loadJsonObject(filename) {
 
 describe('rule file loader function', function() {
 
-    const repoDir = path.dirname(path.dirname(__dirname));
-
     it.skip('should throw an error when and incorrect rule specification is provided', function() {
         //Not implemented yet
     });
