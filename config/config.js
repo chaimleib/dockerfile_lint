@@ -1,5 +1,5 @@
 'use strict';
-const path = require('path');
+const path = require('node:path');
 module.exports = {
     DEFAULT_RULES: path.join(__dirname, 'default_rules.yaml'),
     BASE_RULES: path.join(__dirname, 'base_rules.yaml')

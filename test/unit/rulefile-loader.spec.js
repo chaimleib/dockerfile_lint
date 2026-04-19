@@ -3,7 +3,7 @@
 const assert = require('node:assert/strict'),
     fs = require('node:fs'),
     { describe, it } = require('node:test'),
-    loadRules = require('../../lib/rulefile-loader').load;
+    { load: loadRules } = require('../../lib/rulefile-loader');
 
 
 function loadJsonObject(filename) {

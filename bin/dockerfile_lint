@@ -2,18 +2,20 @@
 
 'use strict';
 
-const fs = require('fs'),
-    yamlParser = require('js-yaml'),
+const fs = require('node:fs'),
     commandline = require('commander'),
+    yamlParser = require('js-yaml'),
     logger = require("../lib/logger"),
-    loadRules = require("../lib/rulefile-loader").load,
+    { load: loadRules } = require("../lib/rulefile-loader"),
     DockeFileValidator = require('../'),
     DockerIO = require('dockerode'),
     ImageLinter = require('../lib/image-linter'),
-    printResults = require('./functions').printResults,
-    printJsonResults = require('./functions').printJsonResults,
-    printJunitResults = require('./functions').printJunitResults,
-    getContent = require('./functions').getContent;
+    {
+        getContent,
+        printJsonResults,
+        printJunitResults,
+        printResults,
+    } = require('./functions');
 
 let rulefileLocation = null,
     rulefile = null,

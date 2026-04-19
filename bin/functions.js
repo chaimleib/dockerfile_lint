@@ -2,7 +2,9 @@
  * Created by lphiri on 3/29/16.
  */
 'use strict';
-const builder = require('junit-report-builder');
+const http = require('node:http'),
+    https = require('node:https'),
+    builder = require('junit-report-builder');
 
 function getRefUrl(url) {
     if (Array.isArray(url)) {
@@ -32,7 +34,7 @@ function isRedirect(statusCode) {
 
 function getContent(url) {
     return new Promise(function(resolve, reject) {
-        const lib = url.startsWith('https') ? require('https') : require('http');
+        const lib = url.startsWith('https') ? https : http;
         const request = lib.get(url, function(response) {
             if (isRedirect(response.statusCode) && response.headers.location) {
                 getContent(response.headers.location).then(resolve).catch(reject);
