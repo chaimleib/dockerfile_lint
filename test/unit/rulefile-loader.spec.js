@@ -8,7 +8,7 @@ const assert = require('node:assert/strict'),
 
 
 function loadJsonObject(filename) {
-    var obj = JSON.parse(fs.readFileSync(filename, 'utf8'));
+    const obj = JSON.parse(fs.readFileSync(filename, 'utf8'));
     return obj;
 }
 

@@ -2,12 +2,12 @@
  * Created by lphiri on 3/29/16.
  */
 'use strict';
-var builder = require('junit-report-builder');
+const builder = require('junit-report-builder');
 
 function getRefUrl(url) {
-    var ref_url = "";
+    let ref_url = "";
     if (Array.isArray(url)) {
-        var base_url = url ? url[0] : "";
+        const base_url = url ? url[0] : "";
         ref_url = url && url[1] ? base_url +
             url[1] : base_url;
     } else {
@@ -18,13 +18,13 @@ function getRefUrl(url) {
 }
 
 function printEntry(entry, level) {
-    var ref_url = getRefUrl(entry.reference_url);
-    var line = entry.line ? ("Line " + entry.line + ":") : "Line 0:";
+    const ref_url = getRefUrl(entry.reference_url);
+    const line = entry.line ? ("Line " + entry.line + ":") : "Line 0:";
     if (entry.lineContent) {
         console.log(line + " -> " + entry.lineContent);
     }
-    var message = entry.message ? entry.message : " ";
-    var description = entry.description ? (". " + entry.description + ". ") : ". ";
+    const message = entry.message ? entry.message : " ";
+    const description = entry.description ? (". " + entry.description + ". ") : ". ";
     console.log(level + ": " + message + description +
         "\nReference -> " + ref_url);
     console.log("\n");
@@ -37,15 +37,15 @@ function isRedirect(statusCode) {
 
 function getContent(url) {
     return new Promise(function(resolve, reject) {
-        var lib = url.startsWith('https') ? require('https') : require('http');
-        var request = lib.get(url, function(response) {
+        const lib = url.startsWith('https') ? require('https') : require('http');
+        const request = lib.get(url, function(response) {
             if (isRedirect(response.statusCode) && response.headers.location) {
                 getContent(res.headers.location).then(resolve).catch(reject);
             }
             if (response.statusCode < 200 || response.statusCode > 299) {
                 reject(new Error('Failed to load page, status code: ' + response.statusCode));
             }
-            var body = [];
+            const body = [];
             response.on('data', function(chunk) { body.push(chunk); });
             response.on('end', function() { resolve(body.join('')); });
         });
@@ -54,9 +54,9 @@ function getContent(url) {
 };
 
 function printResults(results) {
-    var errors = results.error;
-    var warn = results.warn;
-    var info = results.info;
+    const errors = results.error;
+    const warn = results.warn;
+    const info = results.info;
     if (errors && errors.data && errors.data.length > 0) {
         console.log("\n--------ERRORS---------\n");
         errors.data.forEach(function(entry) {
@@ -83,19 +83,19 @@ function printResults(results) {
 }
 
 function printJsonResults(results) {
-    var json = JSON.stringify(results, undefined, 2);
+    const json = JSON.stringify(results, undefined, 2);
     console.log(json);
 }
 
 function makeJunitTestCase(suite, type, entry) {
-    var lineContent = "";
+    let lineContent = "";
     if (entry.lineContent) {
-        var line = entry.line ? ("Line " + entry.line + ":") : "Line 0:";
+        const line = entry.line ? ("Line " + entry.line + ":") : "Line 0:";
         lineContent = line + " -> " + entry.lineContent + ". ";
     }
-    var message = entry.message ? entry.message : " ";
-    var ref_url = getRefUrl(entry.reference_url);
-    var description = entry.description ? entry.description + " | " : "";
+    const message = entry.message ? entry.message : " ";
+    const ref_url = getRefUrl(entry.reference_url);
+    let description = entry.description ? entry.description + " | " : "";
     description = lineContent + message + ". " + description + "Reference -> " + ref_url;
 
     suite.testCase()
@@ -106,12 +106,12 @@ function makeJunitTestCase(suite, type, entry) {
 
 function printJunitResults(results) {
     // Create a test suite
-    var suite = builder.testSuite().name('dockerfile_lint');
+    const suite = builder.testSuite().name('dockerfile_lint');
 
     // Get test results
-    var errors = results.error;
-    var warn = results.warn;
-    var info = results.info;
+    const errors = results.error;
+    const warn = results.warn;
+    const info = results.info;
 
     // Convert test results to JUnit test cases
     if (errors && errors.data && errors.data.length > 0) {

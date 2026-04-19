@@ -140,11 +140,11 @@ npm install git+https://github.com/projectatomic/dockerfile_lint
 
 Import and use the validator:
 ```js
-var fs = require('fs');
-var rulefile = '/path/to/rulefile';
-var DockerFileValidator = require('dockerfile_lint');
-var validator = new DockerFileValidator(rulefile);
-var result = validator.validate(dockerfile);
+const fs = require('fs');
+const DockerFileValidator = require('dockerfile_lint');
+const rulefile = '/path/to/rulefile';
+const validator = new DockerFileValidator(rulefile);
+const result = validator.validate(dockerfile);
 ```
 
 ## Command Line use
