@@ -2,7 +2,6 @@
 
 const assert = require('node:assert/strict'),
     fs = require('node:fs'),
-    path = require('node:path'),
     { describe, it } = require('node:test'),
     loadRules = require('../../lib/rulefile-loader').load;
 
