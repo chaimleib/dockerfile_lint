@@ -2,20 +2,17 @@
 
 const assert = require('node:assert/strict'),
     fs = require('node:fs'),
-    path = require('node:path'),
     { describe, it } = require('node:test'),
-    loadRules = require('../../lib/rulefile-loader').load;
+    { load: loadRules } = require('../../lib/rulefile-loader');
 
 
 function loadJsonObject(filename) {
-    var obj = JSON.parse(fs.readFileSync(filename, 'utf8'));
+    const obj = JSON.parse(fs.readFileSync(filename, 'utf8'));
     return obj;
 }
 
 
 describe('rule file loader function', function() {
-
-    const repoDir = path.dirname(path.dirname(__dirname));
 
     it.skip('should throw an error when and incorrect rule specification is provided', function() {
         //Not implemented yet

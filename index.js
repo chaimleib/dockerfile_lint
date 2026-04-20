@@ -1,5 +1,5 @@
 'use strict';
 
-var Linter = require('./lib/linter');
+const Linter = require('./lib/linter');
 
 module.exports = Linter;

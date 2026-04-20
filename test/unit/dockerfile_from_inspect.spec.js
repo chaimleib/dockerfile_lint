@@ -2,7 +2,7 @@
 
 const assert = require('node:assert/strict'),
     { describe, it } = require('node:test'),
-    commandsFromInspect = require('../../lib/inspect-to-dockerfile').commandsFromInspect;
+    { commandsFromInspect } = require('../../lib/inspect-to-dockerfile');
 
 describe('Commands from Inspect function', function() {
 

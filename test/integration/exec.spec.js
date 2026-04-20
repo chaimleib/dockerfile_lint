@@ -70,7 +70,7 @@ describe('The dockerfile_lint command', function() {
 
 
     it('should exit with a non-zero error code on an empty file', function(t, done) {
-        var p = exec('node ' + binScript + ' -f test/data/dockerfiles/EmptyFile -r test/data/rules/basic.yaml',
+        const p = exec('node ' + binScript + ' -f test/data/dockerfiles/EmptyFile -r test/data/rules/basic.yaml',
             function(err, stdout, stderr) {
             });
         p.on('exit', function(code) {
@@ -81,7 +81,7 @@ describe('The dockerfile_lint command', function() {
     });
 
     it('should exit with code 0 on warning when in strict mode ', function(t, done) {
-        var p = exec('node ' + binScript + ' -p -f test/data/dockerfiles/TestLabels -r test/data/rules/basic.yaml',
+        const p = exec('node ' + binScript + ' -p -f test/data/dockerfiles/TestLabels -r test/data/rules/basic.yaml',
             function(err, stdout, stderr) {
             });
         p.on('exit', function(code) {
@@ -92,7 +92,7 @@ describe('The dockerfile_lint command', function() {
     });
 
     it('should exit with code 0 on warning when in permissive mode (long form)', function(t, done) {
-        var p = exec('node ' + binScript + ' --permissive -f test/data/dockerfiles/TestLabels -r test/data/rules/basic.yaml',
+        const p = exec('node ' + binScript + ' --permissive -f test/data/dockerfiles/TestLabels -r test/data/rules/basic.yaml',
             function(err, stdout, stderr) {
             });
         p.on('exit', function(code) {
@@ -103,7 +103,7 @@ describe('The dockerfile_lint command', function() {
     });
 
     it('should exit with code 1 on warning when not in permissive mode ', function(t, done) {
-        var p = exec('node ' + binScript + ' -f test/data/dockerfiles/TestLabels -r test/data/rules/basic.yaml',
+        const p = exec('node ' + binScript + ' -f test/data/dockerfiles/TestLabels -r test/data/rules/basic.yaml',
             function(err, stdout, stderr) {
             });
         p.on('exit', function(code) {
@@ -114,7 +114,7 @@ describe('The dockerfile_lint command', function() {
 
 
     it('should output valid JSON when in --json mode with multiple Dockerfiles', function(t, done) {
-        var p = exec('node ' + binScript + ' --json -f test/data/dockerfiles/TestLabels -f test/data/dockerfiles/TestLabels -p -r test/data/rules/basic.yaml',
+        const p = exec('node ' + binScript + ' --json -f test/data/dockerfiles/TestLabels -f test/data/dockerfiles/TestLabels -p -r test/data/rules/basic.yaml',
             function(err, stdout, stderr) {
                 const parsed = JSON.parse(stdout);
                 assert.ok(parsed);
@@ -127,7 +127,7 @@ describe('The dockerfile_lint command', function() {
     });
 
     it('should exit with code 1 and error message when using both --json and --junit options ', function(t, done) {
-        var p = exec('node ' + binScript + ' --junit --json -f test/data/dockerfiles/TestLabels',
+        const p = exec('node ' + binScript + ' --junit --json -f test/data/dockerfiles/TestLabels',
             function(err, stdout, stderr) {
                 assert.strictEqual(stderr, "ERROR: result format options (\"--json and --junit\") cannot be used together, please choose one only\n");
             });

@@ -122,13 +122,13 @@ Note the (optional) `inverse_rule` attribute - this is just a convinient way to 
 This section includes a list of instructions that must exist in the dockerfile in order for it to be considered valid.
 
 ## Inline Ignore Instructions
-The user can tell dockerfile_lint to ignore a specific comand line inside a Dockerfile by placing a comment containing the word "dockerfile_lint" followed by the word "ignore", separated by a space, or a space and a dash/equals sign, above the command in the Dockerfile to be ignored. 
+The user can tell dockerfile_lint to ignore a specific comand line inside a Dockerfile by placing a comment containing the word "dockerfile_lint" followed by the word "ignore", separated by a space, or a space and a dash/equals sign, above the command in the Dockerfile to be ignored.
 ```
 # Add is required <for some previously approved reason documented here>
 # dockerfile_lint - ignore
 ADD http://example.com/big.tar.xz /usr/src/things/
 ```
-The above inline ignore would cause dockerfile_lint to skip processing the ADD command that follows it.  This allows the writing of strict rules in order to catch when best practices are not followed, while still being able to explicitly override the check on a case by case basis if a valid reason exists.  
+The above inline ignore would cause dockerfile_lint to skip processing the ADD command that follows it.  This allows the writing of strict rules in order to catch when best practices are not followed, while still being able to explicitly override the check on a case by case basis if a valid reason exists.
 
 # Library Usage
 
@@ -140,11 +140,11 @@ npm install git+https://github.com/projectatomic/dockerfile_lint
 
 Import and use the validator:
 ```js
-var fs = require('fs');
-var rulefile = '/path/to/rulefile';
-var DockerFileValidator = require('dockerfile_lint');
-var validator = new DockerFileValidator(rulefile);
-var result = validator.validate(dockerfile);
+const fs = require('node:fs'),
+  DockerFileValidator = require('dockerfile_lint');
+const validator = new DockerFileValidator('/path/to/rulefile');
+const dockerfile = fs.readFileSync('/path/to/Dockerfile');
+const result = validator.validate(dockerfile);
 ```
 
 ## Command Line use

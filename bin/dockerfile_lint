@@ -2,19 +2,22 @@
 
 'use strict';
 
-var fs = require('fs'),
-    yamlParser = require('js-yaml'),
+const fs = require('node:fs'),
     commandline = require('commander'),
+    yamlParser = require('js-yaml'),
     logger = require("../lib/logger"),
-    loadRules = require("../lib/rulefile-loader").load,
+    { load: loadRules } = require("../lib/rulefile-loader"),
     DockeFileValidator = require('../'),
     DockerIO = require('dockerode'),
     ImageLinter = require('../lib/image-linter'),
-    printResults = require('./functions').printResults,
-    printJsonResults = require('./functions').printJsonResults,
-    printJunitResults = require('./functions').printJunitResults,
-    getContent = require('./functions').getContent,
-    rulefileLocation = null,
+    {
+        getContent,
+        printJsonResults,
+        printJunitResults,
+        printResults,
+    } = require('./functions');
+
+let rulefileLocation = null,
     rulefile = null,
     remoteFile = false,
     strictMode = true,
@@ -67,7 +70,7 @@ if (commandline.permissive) {
 }
 
 if (commandline.exportRules) {
-    var rules = loadRules(rulefileLocation);
+    const rules = loadRules(rulefileLocation);
     console.log(yamlParser.dump(rules));
     process.exit(0);
 }
@@ -92,7 +95,7 @@ function lintDockerFiles() {
         } else {
             results.forEach(printResults);
         }
-        var errorCodesSum = results.reduce(function(total, result) {
+        const errorCodesSum = results.reduce(function(total, result) {
             return total + result.error.count + (strictMode ? result.warn.count : 0);
         }, 0);
         process.exit(errorCodesSum);
@@ -104,19 +107,22 @@ function lintDockerFiles() {
 
 function lintDockerFile(dockerfileLocation) {
     return new Promise(function(resolve, reject) {
+        let dockerfile;
         try {
-            var dockerfile = fs.readFileSync(dockerfileLocation, 'UTF-8');
+            dockerfile = fs.readFileSync(dockerfileLocation, 'UTF-8');
         } catch (e) {
             if (/^http[s]?:\/\//.test(dockerfileLocation)) {
                 remoteFile = true;
             } else {
-                throw new Error('Dockerfile ' + dockerfileLocation + ' not found');
+                throw new Error(
+                    'Dockerfile ' + dockerfileLocation + ' not found',
+                    { cause: e });
             }
         }
 
         function lint(dockerfileContent, rulefileLocation) {
-            var validator = new DockeFileValidator(rulefileLocation);
-            var result = validator.validate(dockerfileContent);
+            const validator = new DockeFileValidator(rulefileLocation);
+            const result = validator.validate(dockerfileContent);
             resolve(result);
         }
 
@@ -131,13 +137,13 @@ function lintDockerFile(dockerfileLocation) {
 }
 
 function lintImageFromInspect() {
-    var docker = new DockerIO(),
+    const docker = new DockerIO(),
         image = docker.getImage(imageid);
     logger.debug("Image id is " + imageid);
 
     function lint(inspectOutPut, rulefileLocation) {
-        var linter = new ImageLinter(rulefileLocation);
-        var results = linter.validate(inspectOutPut);
+        const linter = new ImageLinter(rulefileLocation);
+        const results = linter.validate(inspectOutPut);
         if (commandline.json) {
             printJsonResults(results);
         } else if (commandline.junit) {
