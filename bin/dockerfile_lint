@@ -114,7 +114,9 @@ function lintDockerFile(dockerfileLocation) {
             if (/^http[s]?:\/\//.test(dockerfileLocation)) {
                 remoteFile = true;
             } else {
-                throw new Error('Dockerfile ' + dockerfileLocation + ' not found');
+                throw new Error(
+                    'Dockerfile ' + dockerfileLocation + ' not found',
+                    { cause: e });
             }
         }
 
