@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "commander": "~2.9.0",
-    "dockerode": "^4.0.10",
+    "dockerode": "^5.0.0",
     "js-yaml": "^4.1.1",
     "junit-report-builder": "^5.1.2",
     "lodash": "^4.18.1",
